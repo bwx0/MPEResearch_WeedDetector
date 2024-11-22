@@ -18,4 +18,5 @@ __pycache__
 /testing/yolov8n.torchscript
 /yolo_tools/yolov8n.pt
 /plots/out
+runs
 

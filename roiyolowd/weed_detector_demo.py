@@ -69,4 +69,4 @@ def video_preview(video_file):
 
 
 if __name__ == '__main__':
-    video_preview(r"D:\projects\data_topdown\d2.MP4")
+    video_preview(r"../test_data/d2.mp4")
