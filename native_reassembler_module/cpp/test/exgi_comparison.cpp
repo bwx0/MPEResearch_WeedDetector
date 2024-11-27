@@ -10,7 +10,7 @@ void method1(const cv::Mat &image, cv::Mat &result) {
     cv::Matx13f transformMat(-1, 2, -1); // Coefficients for B, G, R
     cv::transform(image16s, result, transformMat);
 
-    cv::threshold(result, result, 25, 255, cv::THRESH_BINARY);
+    cv::threshold(result, result, low_thresh, 255, cv::THRESH_BINARY);
 
     result.convertTo(result, CV_8U);
 }
@@ -30,7 +30,7 @@ void method2(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= 25) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -42,7 +42,7 @@ void method3(const cv::Mat &image, cv::Mat &result) {
 
     image.convertTo(imageFloat, CV_32F);
     cv::transform(imageFloat, imageFloat, transformMat);
-    cv::threshold(imageFloat, result, 25, 255, cv::THRESH_BINARY);
+    cv::threshold(imageFloat, result, low_thresh, 255, cv::THRESH_BINARY);
 
     result.convertTo(result, CV_8U);
 }
@@ -80,7 +80,7 @@ void method4(const cv::Mat &image, cv::Mat &result) {
 
             cv::v_int16x8 val = (g_vec << 1) - r_vec - b_vec;
 
-            cv::v_int16x8 mask = val >= cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask = val > cv::v_setall_s16(low_thresh);
 
             // Set result to 255 where mask is true, else 0
             cv::v_uint8x16 result_vec = cv::v_pack(cv::v_reinterpret_as_u16(mask & cv::v_setall_s16(255)),
@@ -97,7 +97,7 @@ void method4(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_thresh) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -121,7 +121,7 @@ void method5(const cv::Mat &image, cv::Mat &result) {
 
     cv::threshold(temp, uResult, low_thresh, 255, cv::THRESH_BINARY);
 
-    uResult.copyTo(result);
+    uResult.convertTo(result, CV_8U);
 }
 
 
@@ -140,7 +140,7 @@ void method6(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= 25) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -161,7 +161,7 @@ void method7(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_thresh) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -197,8 +197,8 @@ void method8(const cv::Mat &image, cv::Mat &result) {
             cv::v_int16x8 s_low = cv::v_reinterpret_as_s16(val_low);
             cv::v_int16x8 s_high = cv::v_reinterpret_as_s16(val_high);
 
-            cv::v_int16x8 mask_low = s_low >= cv::v_setall_s16(low_thresh);
-            cv::v_int16x8 mask_high = s_high >= cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_low = s_low > cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_high = s_high > cv::v_setall_s16(low_thresh);
 
             // Pack the results back to 8-bit
             // We can stop at v_pack because values are already 255 by then.
@@ -215,7 +215,7 @@ void method8(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_thresh) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -252,8 +252,8 @@ void method9(const cv::Mat &image, cv::Mat &result) {
             cv::v_int16x8 s_low = cv::v_reinterpret_as_s16(val_low);
             cv::v_int16x8 s_high = cv::v_reinterpret_as_s16(val_high);
 
-            cv::v_int16x8 mask_low = s_low >= cv::v_setall_s16(low_thresh);
-            cv::v_int16x8 mask_high = s_high >= cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_low = s_low > cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_high = s_high > cv::v_setall_s16(low_thresh);
 
             // Pack the results back to 8-bit
             // We can stop at v_pack because values are already 255 by then.
@@ -270,7 +270,7 @@ void method9(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_thresh) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }
@@ -308,8 +308,8 @@ void method10(const cv::Mat &image, cv::Mat &result) {
             cv::v_int16x8 s_low = cv::v_reinterpret_as_s16(val_low);
             cv::v_int16x8 s_high = cv::v_reinterpret_as_s16(val_high);
 
-            cv::v_int16x8 mask_low = s_low >= cv::v_setall_s16(low_thresh);
-            cv::v_int16x8 mask_high = s_high >= cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_low = s_low > cv::v_setall_s16(low_thresh);
+            cv::v_int16x8 mask_high = s_high > cv::v_setall_s16(low_thresh);
 
             // Pack the results back to 8-bit
             // We can stop at v_pack because values are already 255 by then.
@@ -326,7 +326,7 @@ void method10(const cv::Mat &image, cv::Mat &result) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_thresh) ? 255 : 0;
+            dstRow[x] = (value > low_thresh) ? 255 : 0;
         }
     }
 }

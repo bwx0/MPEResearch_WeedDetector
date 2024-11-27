@@ -1,0 +1,50 @@
+[YOLOv8n Inference]	Total runtime: 5149ms   nRuns: 52    99.022ms/call
+
+[bind.RGB2HSV]	Total runtime: 1378ms   nRuns: 1000    1.378ms/call
+
+[bind.ExGI_binarize_1]	Total runtime: 5015ms   nRuns: 590    8.500ms/call
+[bind.ExGI_binarize_2]	Total runtime: 2226ms   nRuns: 1000    2.226ms/call
+[bind.ExGI_binarize_3]	Total runtime: 5020ms   nRuns: 410    12.244ms/call
+[bind.ExGI_binarize_4]	Total runtime: 5010ms   nRuns: 834    6.007ms/call
+[bind.ExGI_binarize_5]	Total runtime: 5006ms   nRuns: 933    5.365ms/call
+[bind.ExGI_binarize_6]	Total runtime: 1100ms   nRuns: 1000    1.100ms/call
+[bind.ExGI_binarize_7]	Total runtime: 1044ms   nRuns: 1000    1.044ms/call
+[bind.ExGI_binarize_8]	Total runtime: 1443ms   nRuns: 1000    1.443ms/call
+[bind.ExGI_binarize_9]	Total runtime: 719ms   nRuns: 1000    0.719ms/call
+[bind.ExGI_binarize_10]	Total runtime: 917ms   nRuns: 1000    0.917ms/call
+[bind.ExGI_binarize_5_nosplit]	Total runtime: 5028ms   nRuns: 300    16.760ms/call
+
+[bind.HSV_binarize_1]	Total runtime: 5011ms   nRuns: 801    6.256ms/call
+[bind.HSV_binarize_2]	Total runtime: 4866ms   nRuns: 1000    4.866ms/call
+[bind.HSV_binarize_3]	Total runtime: 4038ms   nRuns: 1000    4.038ms/call
+[bind.HSV_binarize_4]	Total runtime: 2665ms   nRuns: 1000    2.665ms/call
+
+[ExGI_binarize1]	Total runtime: 5027ms   nRuns: 257    19.560ms/call
+[ExGI_binarize2]	Total runtime: 5037ms   nRuns: 161    31.286ms/call
+[ExGI_binarize3]	Total runtime: 5038ms   nRuns: 236    21.347ms/call
+[ExGI_binarize4]	Total runtime: 5018ms   nRuns: 370    13.562ms/call
+[ExGI_binarize5]	Total runtime: 5031ms   nRuns: 257    19.576ms/call
+[ExGI_binarize6]	Total runtime: 5029ms   nRuns: 306    16.435ms/call
+
+[HSV_binarize1_1p]	Total runtime: 3335ms   nRuns: 1000    3.335ms/call
+[HSV_binarize2]	Total runtime: 5014ms   nRuns: 499    10.048ms/call
+[HSV_binarize3]	Total runtime: 5015ms   nRuns: 606    8.276ms/call
+
+[rgb2hsv]	Total runtime: 1196ms   nRuns: 1000    1.196ms/call
+[rgb2hsv_inplace]	Total runtime: 402ms   nRuns: 1000    0.402ms/call
+
+[C++.ExGI_1] Average Time: 8.21062 ms
+[C++.ExGI_2] Average Time: 2.18899 ms
+[C++.ExGI_3] Average Time: 11.9062 ms
+[C++.ExGI_4] Average Time: 5.44698 ms
+[C++.ExGI_5] Average Time: 18.7023 ms
+[C++.ExGI_6] Average Time: 0.688255 ms
+[C++.ExGI_7] Average Time: 0.577955 ms
+[C++.ExGI_8] Average Time: 1.09011 ms
+[C++.ExGI_9] Average Time: 0.509945 ms
+[C++.ExGI_10] Average Time: 0.56175 ms
+
+[C++.HSV_1] Average Time: 5.99692 ms
+[C++.HSV_2] Average Time: 4.74822 ms
+[C++.HSV_3] Average Time: 3.92245 ms
+[C++.HSV_4] Average Time: 2.28955 ms

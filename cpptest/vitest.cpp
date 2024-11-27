@@ -33,7 +33,7 @@ cv::Mat GLI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
     return (2 * G - R - B) / (2 * G + R + B + 1e-5); // Adding a small constant to avoid division by zero
 }
 
-cv::Mat MPRI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
+cv::Mat GNDVI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
     return (G - R) / (G + R + 1e-5);
 }
 
@@ -97,7 +97,7 @@ cv::Mat GLI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
     return result;
 }
 
-cv::Mat MPRI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
+cv::Mat GNDVI(const cv::Mat& R, const cv::Mat& G, const cv::Mat& B) {
     cv::Mat result = cv::Mat::zeros(G.size(), CV_32F);
     for (int i = 0; i < G.rows; i++) {
         for (int j = 0; j < G.cols; j++) {
@@ -195,7 +195,7 @@ int main() {
     test_filter(rgbimg, ExGI, "ExGI");
     test_filter(rgbimg, ExGI, "ExGI");
     test_filter(rgbimg, GLI, "GLI");
-    test_filter(rgbimg, MPRI, "MPRI");
+    test_filter(rgbimg, GNDVI, "GNDVI");
     test_filter(rgbimg, VARI, "VARI");
     test_filter(rgbimg, GRRI, "GRRI");
     test_filter(rgbimg, VEG, "VEG");

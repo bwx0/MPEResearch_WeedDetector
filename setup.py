@@ -61,6 +61,14 @@ setup(
     cmdclass={'build_ext': CMakeBuild},
     zip_safe=False,
     packages=find_packages(include=[module_name, f"{module_name}.*"]),
-    # setup_requires=['pybind11==2.13.6', 'cmake==3.25.0'],  # moved to requirements.txt
+    setup_requires=['pybind11', 'cmake'],
     include_package_data=True,
+    install_requires=[
+        "ultralytics",
+        "opencv_python",
+        "numpy",
+        "Pillow",
+        "psutil",
+        "vidstab"
+    ]
 )

@@ -4,7 +4,7 @@ message("Current CMake directory: ${CMAKE_CURRENT_LIST_DIR}")
 
 set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} "-std=c++20 -fopenmp -pthread -Ofast -march=native -fprefetch-loop-arrays -g -gdwarf-4")
+set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} " -std=c++20 -fopenmp -pthread -Ofast -march=native -fprefetch-loop-arrays -g -gdwarf-4 ")
 
 project(image_reassembler)
 

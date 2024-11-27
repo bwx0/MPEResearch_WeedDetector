@@ -97,7 +97,7 @@ cv::Mat bgr2ExGI_loop(const cv::Mat &image, int low_threshold, int nThreads) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_threshold) ? 255 : 0;
+            dstRow[x] = (value > low_threshold) ? 255 : 0;
         }
     }
     return result;
@@ -142,8 +142,8 @@ cv::Mat bgr2ExGI_simd(const cv::Mat &image, int low_threshold, int nThreads) {
             cv::v_int16x8 s_low = cv::v_reinterpret_as_s16(val_low);
             cv::v_int16x8 s_high = cv::v_reinterpret_as_s16(val_high);
 
-            cv::v_int16x8 mask_low = s_low >= cv::v_setall_s16(low_threshold);
-            cv::v_int16x8 mask_high = s_high >= cv::v_setall_s16(low_threshold);
+            cv::v_int16x8 mask_low = s_low > cv::v_setall_s16(low_threshold);
+            cv::v_int16x8 mask_high = s_high > cv::v_setall_s16(low_threshold);
 
             // Pack the results back to 8-bit
             // We can stop at v_pack because values are already 255 by then.
@@ -161,7 +161,7 @@ cv::Mat bgr2ExGI_simd(const cv::Mat &image, int low_threshold, int nThreads) {
 
             int value = 2 * g - r - b;
 
-            dstRow[x] = (value >= low_threshold) ? 255 : 0;
+            dstRow[x] = (value > low_threshold) ? 255 : 0;
         }
     }
     return result;
