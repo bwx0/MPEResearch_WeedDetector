@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-# This is garbage, don't use
+# This is garbage, just don't use it
 class CropRowFinder:
     def __init__(self):
         self.ed_last = None

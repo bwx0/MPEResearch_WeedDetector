@@ -49,7 +49,7 @@ def testRev():
     ra.addRect(Rect(150, 150, 80, 50))
     ra.reassemble(np.zeros((500, 500, 3)))
     img = draw_rects_bound(640, 640, ra.mappings)
-    print(ra.reverse_mapping(
+    print(ra.reverse_map(
         [Rect(10, 10, 10, 10), Rect(5, 20, 2, 2), Rect(91, 5, 2, 2), Rect(118, 5, 2, 2), Rect(200, 5, 2, 2)]))
     cv2.imshow("rects", img)
     cv2.waitKey(0)

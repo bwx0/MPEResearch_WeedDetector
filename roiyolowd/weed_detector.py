@@ -175,7 +175,7 @@ class YOLOv8WithROIDetector(YOLOv8Detector):
         #     cv2.rectangle(canvas, label.rect.pt1, label.rect.pt2, self.color_of_cls(label.cls), 2)
         # cv2.imshow("rf222222", canvas)
 
-        back = ra.reverse_mapping(rects)
+        back = ra.reverse_map(rects)
         n_fail = 0
         for i in range(len(back)):
             br = back[i]

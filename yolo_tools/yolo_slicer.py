@@ -148,7 +148,7 @@ def make_gallery(im: np.ndarray, boxes_rect: List[Tuple[Rect, int]], bg_count: i
 
         # We use variable margin size so that the models don't make decisions based on margins
         imgr = ra.reassemble(im, use_resizable_packer=True, border_thickness=2, padding_size=(0, 25), roi_extractor=None)
-        mapped = ra.mapping(rect_list)
+        mapped = ra.forward_map(rect_list)
         mapped_bbox = [rect2bbox(rm.dst) for rm in mapped]
 
         lbl_table = []
@@ -181,7 +181,7 @@ def make_gallery_tile_only(im: np.ndarray, boxes_rect: List[Tuple[Rect, int]], b
         # We use variable margin size so that the models don't make decisions based on margins
         # imgr = ra.reassemble(im, autosize=True, border=2, margin=(0, 25), roi_extractor=None)  # Randomized margin saves the world
         imgr = ra.reassemble(im, use_resizable_packer=True, border_thickness=2, padding_size=8, roi_extractor=None)
-        mapped = ra.mapping(rect_list)
+        mapped = ra.forward_map(rect_list)
         mapped_bbox = [rect2bbox(rm.dst) for rm in mapped]
 
         lbl_table = []

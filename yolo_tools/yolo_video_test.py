@@ -42,7 +42,7 @@ def detect_roi(model, frame, frame0):
     draw_boxes(rf, rects, (0, 150, 255))
     cv2.imshow("det_roi", rf)
 
-    back = ra.reverse_mapping(rects)
+    back = ra.reverse_map(rects)
     rects_original_space = []
     for br in back:
         if not br.dst:

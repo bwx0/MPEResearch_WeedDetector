@@ -258,7 +258,7 @@ class Reassembler:
         self.reassembled = True
         return result_img
 
-    def reverse_mapping(self, rects: List[Rect]) -> List[RectMapping]:
+    def reverse_map(self, rects: List[Rect]) -> List[RectMapping]:
         """
         Map a list of rects from mapped image space back to original image space
         Args:
@@ -276,7 +276,7 @@ class Reassembler:
         result: List[RectMapping] = self.__map0(rect_mapped_space, rect_reference, rects, rev=True)
         return result
 
-    def mapping(self, rects: List[Rect]) -> List[RectMapping]:
+    def forward_map(self, rects: List[Rect]) -> List[RectMapping]:
         """
         Map a list of rects from original image space to reassembled image space
         Args:
