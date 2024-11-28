@@ -1,4 +1,4 @@
-[YOLOv8n Inference]	Total runtime: 5149ms   nRuns: 52    99.022ms/call
+[YOLOv8n Inference]	Total runtime: 5149ms   nRuns: 52    99.022ms/call  (59ms inference)
 
 [bind.RGB2HSV]	Total runtime: 1378ms   nRuns: 1000    1.378ms/call
 
@@ -33,18 +33,32 @@
 [rgb2hsv]	Total runtime: 1196ms   nRuns: 1000    1.196ms/call
 [rgb2hsv_inplace]	Total runtime: 402ms   nRuns: 1000    0.402ms/call
 
-[C++.ExGI_1] Average Time: 8.21062 ms
-[C++.ExGI_2] Average Time: 2.18899 ms
-[C++.ExGI_3] Average Time: 11.9062 ms
-[C++.ExGI_4] Average Time: 5.44698 ms
-[C++.ExGI_5] Average Time: 18.7023 ms
-[C++.ExGI_6] Average Time: 0.688255 ms
-[C++.ExGI_7] Average Time: 0.577955 ms
-[C++.ExGI_8] Average Time: 1.09011 ms
-[C++.ExGI_9] Average Time: 0.509945 ms
-[C++.ExGI_10] Average Time: 0.56175 ms
+[C++.ExGI_1]	Total runtime: 5006ms   nRuns: 578    8.6609ms/call
+[C++.ExGI_2]	Total runtime: 1853ms   nRuns: 1000    1.853ms/call
+[C++.ExGI_3]	Total runtime: 5001ms   nRuns: 406    12.3177ms/call
+[C++.ExGI_4]	Total runtime: 5003ms   nRuns: 888    5.63401ms/call
+[C++.ExGI_5]	Total runtime: 5003ms   nRuns: 992    5.04335ms/call
+[C++.ExGI_6]	Total runtime: 714ms   nRuns: 1000    0.714ms/call
+[C++.ExGI_7]	Total runtime: 540ms   nRuns: 1000    0.54ms/call
+[C++.ExGI_8]	Total runtime: 1057ms   nRuns: 1000    1.057ms/call
+[C++.ExGI_9]	Total runtime: 399ms   nRuns: 1000    0.399ms/call
+[C++.ExGI_10]	Total runtime: 559ms   nRuns: 1000    0.559ms/call
 
-[C++.HSV_1] Average Time: 5.99692 ms
-[C++.HSV_2] Average Time: 4.74822 ms
-[C++.HSV_3] Average Time: 3.92245 ms
-[C++.HSV_4] Average Time: 2.28955 ms
+[C++.HSV_1]	Total runtime: 5001ms   nRuns: 754    6.63263ms/call
+[C++.HSV_2]	Total runtime: 4888ms   nRuns: 1000    4.888ms/call
+[C++.HSV_3]	Total runtime: 4062ms   nRuns: 1000    4.062ms/call
+[C++.HSV_4]	Total runtime: 2289ms   nRuns: 1000    2.289ms/call
+
+[cv.find_contour]	Total runtime: 1959ms   nRuns: 1000    1.959ms/call
+[cv.threshold]	Total runtime: 546ms   nRuns: 1000    0.546ms/call
+[cv.adaptiveThreshold]	Total runtime: 5023ms   nRuns: 418    12.017ms/call
+[cv.morphologyEx(close,3x3)]	Total runtime: 911ms   nRuns: 1000    0.911ms/call
+[cv.morphologyEx(close,7x7)]	Total runtime: 1831ms   nRuns: 1000    1.831ms/call
+[cv.morphologyEx(close,11x11)]	Total runtime: 3654ms   nRuns: 1000    3.654ms/call
+[cv.morphologyEx(close,15x15)]	Total runtime: 5009ms   nRuns: 773    6.480ms/call
+[cv.morphologyEx(close,20x20)]	Total runtime: 5016ms   nRuns: 434    11.558ms/call
+[cv.morphologyEx(close,21x21)]	Total runtime: 5020ms   nRuns: 422    11.896ms/call
+[cv.connectedComponents(connectivity=4)]	Total runtime: 4070ms   nRuns: 1000    4.070ms/call
+[cv.connectedComponents(connectivity=8)]	Total runtime: 2891ms   nRuns: 1000    2.891ms/call
+[cv.connectedComponentsWithStats(connectivity=4)]	Total runtime: 5008ms   nRuns: 982    5.100ms/call
+[cv.connectedComponentsWithStats(connectivity=8)]	Total runtime: 3755ms   nRuns: 1000    3.755ms/call

@@ -1,0 +1,50 @@
+[YOLOv8n Inference]     Total runtime: 5764ms   nRuns: 7    823.392ms/call  (411ms inference)
+
+[bind.RGB2HSV]  Total runtime: 5011ms   nRuns: 717    6.988ms/call
+
+[bind.ExGI_binarize_1]  Total runtime: 5048ms   nRuns: 187    26.995ms/call
+[bind.ExGI_binarize_2]  Total runtime: 5010ms   nRuns: 843    5.942ms/call
+[bind.ExGI_binarize_3]  Total runtime: 5025ms   nRuns: 216    23.265ms/call
+[bind.ExGI_binarize_4]  Total runtime: 5016ms   nRuns: 426    11.776ms/call
+[bind.ExGI_binarize_5]  Total runtime: 5030ms   nRuns: 217    23.178ms/call
+[bind.ExGI_binarize_6]  Total runtime: 2609ms   nRuns: 1000    2.609ms/call
+[bind.ExGI_binarize_7]  Total runtime: 2442ms   nRuns: 1000    2.442ms/call
+[bind.ExGI_binarize_8]  Total runtime: 3327ms   nRuns: 1000    3.327ms/call
+[bind.ExGI_binarize_9]  Total runtime: 3383ms   nRuns: 1000    3.383ms/call
+[bind.ExGI_binarize_10] Total runtime: 3382ms   nRuns: 1000    3.382ms/call
+[bind.ExGI_binarize_5_nosplit]  Total runtime: 5037ms   nRuns: 179    28.142ms/call
+
+[bind.HSV_binarize_1]   Total runtime: 5038ms   nRuns: 261    19.302ms/call
+[bind.HSV_binarize_2]   Total runtime: 5018ms   nRuns: 277    18.117ms/call
+[bind.HSV_binarize_3]   Total runtime: 5027ms   nRuns: 258    19.484ms/call
+[bind.HSV_binarize_4]   Total runtime: 5010ms   nRuns: 494    10.141ms/call
+
+[ExGI_binarize1]        Total runtime: 5047ms   nRuns: 130    38.826ms/call
+[ExGI_binarize2]        Total runtime: 5173ms   nRuns: 40    129.334ms/call
+[ExGI_binarize3]        Total runtime: 5150ms   nRuns: 56    91.961ms/call
+[ExGI_binarize4]        Total runtime: 5045ms   nRuns: 200    25.224ms/call
+[ExGI_binarize5]        Total runtime: 5041ms   nRuns: 159    31.705ms/call
+[ExGI_binarize6]        Total runtime: 5061ms   nRuns: 149    33.964ms/call
+
+[HSV_binarize1_1p]      Total runtime: 5012ms   nRuns: 618    8.110ms/call
+[HSV_binarize2] Total runtime: 5034ms   nRuns: 248    20.299ms/call
+[HSV_binarize3] Total runtime: 5035ms   nRuns: 270    18.649ms/call
+
+[rgb2hsv]       Total runtime: 3951ms   nRuns: 1000    3.951ms/call
+[rgb2hsv_inplace]       Total runtime: 4936ms   nRuns: 1000    4.936ms/call
+
+[C++.ExGI_1]    Total runtime: 5021ms   nRuns: 162    30.9938ms/call
+[C++.ExGI_2]    Total runtime: 5005ms   nRuns: 815    6.1411ms/call
+[C++.ExGI_3]    Total runtime: 5022ms   nRuns: 177    28.3729ms/call
+[C++.ExGI_4]    Total runtime: 5007ms   nRuns: 319    15.6959ms/call
+[C++.ExGI_5]    Total runtime: 5022ms   nRuns: 172    29.1977ms/call
+[C++.ExGI_6]    Total runtime: 3450ms   nRuns: 1000    3.45ms/call
+[C++.ExGI_7]    Total runtime: 3509ms   nRuns: 1000    3.509ms/call
+[C++.ExGI_8]    Total runtime: 3697ms   nRuns: 1000    3.697ms/call
+[C++.ExGI_9]    Total runtime: 4014ms   nRuns: 1000    4.014ms/call
+[C++.ExGI_10]   Total runtime: 4298ms   nRuns: 1000    4.298ms/call
+
+[C++.HSV_1]     Total runtime: 5045ms   nRuns: 133    37.9323ms/call
+[C++.HSV_2]     Total runtime: 5006ms   nRuns: 211    23.7251ms/call
+[C++.HSV_3]     Total runtime: 5012ms   nRuns: 194    25.8351ms/call
+[C++.HSV_4]     Total runtime: 5008ms   nRuns: 361    13.8726ms/call

@@ -120,3 +120,8 @@ Solution: Set the following environment variable using bash or in your IDE.
 export OPENCV_FFMPEG_READ_ATTEMPTS = 10000000
 ```
 
+### YOLOv8 inference is much slower than the expected 100ms/img
+
+I noticed YOLOv8 was taking around 240ms to detect objects in an image,
+which is way slower than the claimed 10 FPS on the RPi 5.
+After some digging, I managed to fix it by switching `torchvision` to version 0.20.1.
