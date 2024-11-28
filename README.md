@@ -104,6 +104,13 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make install -j
 ```
 
+
+## Fine-tune YOLOv8
+- Step 1: Label your images in [LabelStudio](https://labelstud.io/).
+- Step 2: Export the project in the YOLO format.
+- Step 3: Use `yolo_tools/yolo_slicer.py` to augment and convert the exported dataset into one that can directly be used by YOLOv8.
+- Step 4: Use `yolo_tools/yolo_train.py` to train the model with the prepared dataset (the one named `{your_dataset_name}_final`).
+
 ## Troubleshooting
 
 ### OpenCV error when using `cv2.VideoCapture()` to read a video

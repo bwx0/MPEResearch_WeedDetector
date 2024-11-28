@@ -98,7 +98,7 @@ class LabelMapper:
         for i, lbl in enumerate(self.labels):
             self.mappings_oldv2idx[lbl] = i
         values = list(set(self.mappings.values()))
-        values.sort(key = lambda x: ranks[x])
+        values.sort(key=lambda x: ranks[x])
         new_labels_list: List[str] = []
         for i, v in enumerate(values):
             self.mappings_newv2idx[v] = i
@@ -165,8 +165,7 @@ def make_gallery(im: np.ndarray, boxes_rect: List[Tuple[Rect, int]], bg_count: i
 
 
 def make_gallery_tile_only(im: np.ndarray, boxes_rect: List[Tuple[Rect, int]], bg_count: int, suffix: str, newpath: str,
-                 imgname: str, ext: str):
-
+                           imgname: str, ext: str):
     for li, lbl_list in enumerate([boxes_rect]):
         lbl_list = lbl_list.copy()
         random.shuffle(lbl_list)
@@ -196,9 +195,10 @@ def make_gallery_tile_only(im: np.ndarray, boxes_rect: List[Tuple[Rect, int]], b
         lbl_df = pd.DataFrame(lbl_table, columns=['class', 'x1', 'y1', 'w', 'h'])
         lbl_df.to_csv(slice_labels_path, sep=' ', index=False, header=False, float_format='%.6f')
 
-def relabel(imnames, labnames, newpath, slice_size, ext, label_mapper: LabelMapper):
-    check_dir(os.path.join(newpath, 'images'))
-    check_dir(os.path.join(newpath, 'labels'))
+
+def relabel(imnames, labnames, newpath, slice_size, ext, label_mapper: LabelMapper, remove_old):
+    check_dir(os.path.join(newpath, 'images'), remove_old)
+    check_dir(os.path.join(newpath, 'labels'), remove_old)
     for imname in imnames:
         imname = imname.replace('\\', '/')
         filename = imname.split("/")[-1]
@@ -366,14 +366,19 @@ names: {lns}
         f.write(data_yaml_content)
 
 
-def check_dir(target):
+def check_dir(target, remove_old):
     if not os.path.exists(target):
         os.makedirs(target)
     elif len(os.listdir(target)) > 0:
-        raise Exception(f"{target} folder should be empty")
+        if remove_old:
+            shutil.rmtree(target)
+            os.makedirs(target)
+        else:
+            raise Exception(f"{target} folder should be empty")
 
 
-def tile_and_split(source, label_mappings: Dict[str, str], ext=".png", size=600, ratio=0.8, split_only=False):
+def tile_and_split(source, label_mappings: Dict[str, str], ext=".png", size=600, ratio=0.8, split_only=False,
+                   remove_old=True):
     imnames = glob.glob(f'{source}/images/*{ext}')
     labnames = glob.glob(f'{source}/labels/*.txt')
     classestxt = f"{source}/classes.txt"
@@ -400,13 +405,13 @@ def tile_and_split(source, label_mappings: Dict[str, str], ext=".png", size=600,
         raise Exception("Dataset should contain equal number of images and txt files with labels")
 
     if not split_only:
-        check_dir(target)
-        check_dir(target_relabelled)
+        check_dir(target, remove_old)
+        check_dir(target_relabelled, remove_old)
 
     if not split_only:
         with open(target_relabelled.joinpath('classes.txt'), 'w') as f:
             f.write(label_mapper.newclasslines)
-        relabel(imnames, labnames, target_relabelled, size, ext, label_mapper)
+        relabel(imnames, labnames, target_relabelled, size, ext, label_mapper, remove_old)
 
         with open(target.joinpath('classes.txt'), 'w') as f:
             f.write(label_mapper.newclasslines)
@@ -414,17 +419,17 @@ def tile_and_split(source, label_mappings: Dict[str, str], ext=".png", size=600,
 
     # classes.names should be located one level higher than images
     # this file is not changing, so we will just copy it to a target folder
-    check_dir(target_final)
+    check_dir(target_final, remove_old)
     splitter(target, target_final, ratio)
 
-def convert_to_trainable(source, ratio=0.8):
+
+def convert_to_trainable(source, ratio=0.8, remove_old=True):
     target_final = pathlib.Path(source)
     target_final = target_final.with_name(target_final.name + "_final")
-    check_dir(target_final)
+    check_dir(target_final, remove_old)
     splitter(source, target_final, ratio)
 
 
-
 if __name__ == "__main__":
-    #convert_to_trainable("../dataset/test3_relabelled", 0.7)
+    # convert_to_trainable("../dataset/test3_relabelled", 0.7)
     tile_and_split("../dataset/test3_2", label_mappings=label_mapping_crop_weeds1, split_only=False)
