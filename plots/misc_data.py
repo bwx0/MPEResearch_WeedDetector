@@ -132,7 +132,7 @@ def process_illustration(path):
 
     # reassembly
     ra = Reassembler()
-    reassembled = ra.reassemble(img, autosize=True, margin=0)
+    reassembled = ra.reassemble(img, use_resizable_packer=True, padding_size=0)
     save_plot(f"{out_dir}/reassembled.png", reassembled)
 
 
@@ -147,7 +147,7 @@ def calculate_preproc_recall(ioa_threshold=0.5):
         gt = tc.labels
 
         ra = Reassembler()
-        ra.reassemble(img, autosize=True)
+        ra.reassemble(img, use_resizable_packer=True)
         mp = ra.mappings
 
         n_total += len(gt)

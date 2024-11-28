@@ -19,8 +19,9 @@ class ExGIGreenExtractor(ROIExtractor):
         """
         Args:
             exgi_threshold:
-            max_size: The maximum width/height an ROI tile can have to be considered a valid one. (otherwise it is considered a crop row)
-            min_size: The minimum width/height an ROI tile can have to be considered a valid one. (otherwise it is considered noise)
+            max_size: The maximum width or height an ROI tile can have to still be considered valid; otherwise, it will be considered as part of a crop row.
+            min_size: The minimum width or height an ROI tile must have to still be considered valid; otherwise, it will be considered as noise.
+            merge_overlapping_rects: Merge overlapping ROIs or not. Merging overlapping ROIs can prevent the same plant from showing up in multiple ROIs.
         """
         self.exgi_threshold = exgi_threshold
         self.max_size = max_size
@@ -44,6 +45,9 @@ class ExGIGreenExtractor(ROIExtractor):
 
         # cv2.imshow("b1", b1)
 
+        # Use the close operation to clean up noise and connect leaves to the main stem, especially if they're
+        # separated due to thin or faint connections in the picture.
+        # The kernel size of 20 was chosen somewhat arbitrarily, assuming the image resolution is 1080p.
         b2 = cv2.morphologyEx(b1, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (20, 20)))
         # cv2.imshow("b2", b2)
 

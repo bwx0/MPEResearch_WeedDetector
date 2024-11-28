@@ -154,7 +154,7 @@ class YOLOv8WithROIDetector(YOLOv8Detector):
     @override
     def detect(self, bgr_image: np.ndarray) -> List[WeedLabel]:
         ra = create_reassembler(self.use_native_reassembler)
-        rf = ra.reassemble(bgr_image, autosize=True, border=3)
+        rf = ra.reassemble(bgr_image, use_resizable_packer=True, border_thickness=3)
         # cv2.imshow("rf", rf)
 
         if rf.shape[0] * rf.shape[1] >= bgr_image.shape[0] * bgr_image.shape[1] * self.reassemble_size_limit:

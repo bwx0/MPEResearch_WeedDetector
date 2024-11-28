@@ -58,7 +58,7 @@ def testRev():
 
 def reassemble(image):
     ra = create_reassembler(use_native=True)
-    rf = ra.reassemble(image, autosize=True)
+    rf = ra.reassemble(image, use_resizable_packer=True)
     cv2.imshow("ra", rf)
     cv2.waitKey(0)
 

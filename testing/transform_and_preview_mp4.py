@@ -317,7 +317,7 @@ def reassemble_green(image_fullres):
         w = min(w + extra * 2, imgw - x)
         h = min(h + extra * 2, imgh - y)
         reassembler.addRect(Rect(x, y, w, h))
-    img_re = reassembler.reassemble(image_fullres, autosize=True, border=border, roi_extractor=None)
+    img_re = reassembler.reassemble(image_fullres, use_resizable_packer=True, border_thickness=border, roi_extractor=None)
     cv2.imshow('reassembled', img_re)
 
     return img_re

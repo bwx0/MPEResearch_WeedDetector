@@ -169,22 +169,23 @@ class Reassembler:
         self.rects.append(rect)
 
     def reassemble(self, srcImg: np.ndarray,
-                   initial_width: int = 640,
+                   packer_width: int = 640,
                    sorting_method: RectSorting = RectSorting.HEIGHT_DESC,
-                   autosize: bool = True,
-                   border: int = 3,
-                   margin: int | Tuple[int, int] = 8,
+                   use_resizable_packer: bool = True,
+                   border_thickness: int = 3,
+                   padding_size: int | Tuple[int, int] = 8,
                    roi_extractor: Optional[ROIExtractor] = __default_roi_extractor_sentinel) -> np.ndarray:
         """
-        Take
         Args:
-            srcImg: The image to find ROIs from and reassemble
-            initial_width: A sensible value is the square root of total area over all rects
-            sorting_method: Choose from RectSorting
-            autosize: Frame size are automatically adjusted during fitting. initial_with does not take effect when autosize is on.
-            border: The amount of black borders to add around each rectangle (in pixels)
-            margin: The number of pixels by which to move each side of the rectangles away from their center. Passing a 2-tuple
-            enables randomised margin and specifies the lower bound and upper bound of the margin width.
+            srcImg: The input image from which to extract ROIs and reassemble them.
+            packer_width: The width for the fixed packer. A reasonable value is the square root of the (estimated) total area of all ROIs.
+            If using a resizable packer (`use_resizable_packer=True`), this can be ignored or set to an arbitrary value.
+            sorting_method: An appropriate ROI sorting method is required to achieve optimal space utilisation. The default one (HEIGHT_DESC) is good enough for both fixed size and resizable packer.
+            use_resizable_packer: Frame size are automatically adjusted during fitting. packer_width does not take effect when use_resizable_packer is True.
+            border_thickness: The thickness (in pixels) of the black borders added to all sides of each ROI.
+            padding_size: The number of pixels by which to expand each side of the rectangles outward from their center.
+            This enlarges the cropped area uniformly while keeping it centered around its original position.
+            If a 2-tuple is provided, the padding size is randomized within the specified lower and upper bounds (the 2 numbers in the tuple).
             roi_extractor:
 
         Returns:
@@ -209,8 +210,8 @@ class Reassembler:
         # it's still a relatively simple task.
         imgh, imgw = srcImg.shape[:2]
         expanded_rects: List[Rect] = []
-        if isinstance(margin, int):  # Constant size margin
-            extra = margin + border
+        if isinstance(padding_size, int):  # Constant size margin
+            extra = padding_size + border_thickness
             for rect in self.rects:
                 x1, y1, w, h = rect.x, rect.y, rect.w, rect.h
                 x2, y2 = x1 + w, y1 + h
@@ -219,7 +220,7 @@ class Reassembler:
                 expanded_rects.append(Rect(x1, y1, x2 - x1, y2 - y1))
                 rect = expanded_rects[len(expanded_rects) - 1]
         else:  # Margin with size ranging from the given range
-            margin_lo, margin_hi = margin
+            margin_lo, margin_hi = padding_size
             for rect in self.rects:
                 x1, y1, w, h = rect.x, rect.y, rect.w, rect.h
                 x2, y2 = x1 + w, y1 + h
@@ -232,11 +233,10 @@ class Reassembler:
         # Step 2: sort rects and pack
         start_t = time.time()
         sorted_rects = sorted(expanded_rects, key=sorting_method, reverse=True)
-        packer = None
-        if autosize:
+        if use_resizable_packer:
             packer = ResizablePacker()
         else:
-            packer = Packer(initial_width, initial_width)
+            packer = Packer(packer_width, packer_width)
         mappings = packer.fit(sorted_rects)
         self.mappings = mappings
         fit_el = int((time.time() - start_t) * 1000)
@@ -244,7 +244,7 @@ class Reassembler:
 
         # Step 3: construct the reassembled image
         start_t = time.time()
-        result_img = self.__draw_rects(srcImg, mappings, border)
+        result_img = self.__draw_rects(srcImg, mappings, border_thickness)
         draw_el = int((time.time() - start_t) * 1000)
         sw.stop("img")
 
@@ -253,7 +253,7 @@ class Reassembler:
         n_fail = np.sum([0 if i.dst else 1 for i in mappings])
         total_area = result_img.shape[0] * result_img.shape[1]
         print(f"{result_img.shape}   areaR={total_area / 640 / 640}   utilisation={effective_area / total_area}"
-              f"  n_fail={n_fail}   fit_el={fit_el}ms   draw_el={draw_el}ms")
+              f"  n_fail={n_fail}   fit_time={fit_el}ms   draw_time={draw_el}ms")
 
         self.reassembled = True
         return result_img
@@ -336,6 +336,8 @@ class Reassembler:
             candidate = self.mappings[ci]
             iou = ious[i][ci]
 
+            # Choose the ROI that has the most overlapping with the rectangle, and use that ROI as the reference point to
+            # map the rectangle location back to the original image.
             for j, rm in enumerate(self.mappings):
                 if (rev and rm.dst.contains_rect(rect)) or (not rev and rm.src.contains_rect(rect)):
                     candidate = rm

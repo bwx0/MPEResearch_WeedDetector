@@ -31,7 +31,7 @@ def detect_roi(model, frame, frame0):
     sw = Stopwatch()
 
     ra = Reassembler()
-    rf = ra.reassemble(frame0, autosize=True)
+    rf = ra.reassemble(frame0, use_resizable_packer=True)
     sw.stop("reassemble")
     cv2.imshow("reassembled frame", rf)
 

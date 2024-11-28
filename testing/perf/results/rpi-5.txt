@@ -48,3 +48,17 @@
 [C++.HSV_2]     Total runtime: 5005ms   nRuns: 374    13.3824ms/call
 [C++.HSV_3]     Total runtime: 5000ms   nRuns: 322    15.528ms/call
 [C++.HSV_4]     Total runtime: 5003ms   nRuns: 915    5.46776ms/call
+
+[cv.find_contour]       Total runtime: 3025ms   nRuns: 1000    3.025ms/call
+[cv.threshold]  Total runtime: 558ms   nRuns: 1000    0.558ms/call
+[cv.adaptiveThreshold]  Total runtime: 5025ms   nRuns: 212    23.703ms/call
+[cv.morphologyEx(close,3x3)]    Total runtime: 1530ms   nRuns: 1000    1.530ms/call
+[cv.morphologyEx(close,7x7)]    Total runtime: 5007ms   nRuns: 782    6.403ms/call
+[cv.morphologyEx(close,11x11)]  Total runtime: 5021ms   nRuns: 310    16.197ms/call
+[cv.morphologyEx(close,15x15)]  Total runtime: 5049ms   nRuns: 168    30.055ms/call
+[cv.morphologyEx(close,20x20)]  Total runtime: 5063ms   nRuns: 89    56.888ms/call
+[cv.morphologyEx(close,21x21)]  Total runtime: 5059ms   nRuns: 87    58.155ms/call
+[cv.connectedComponents(connectivity=4)]        Total runtime: 5013ms   nRuns: 606    8.271ms/call
+[cv.connectedComponents(connectivity=8)]        Total runtime: 5012ms   nRuns: 813    6.165ms/call
+[cv.connectedComponentsWithStats(connectivity=4)]       Total runtime: 5010ms   nRuns: 561    8.930ms/call
+[cv.connectedComponentsWithStats(connectivity=8)]       Total runtime: 5012ms   nRuns: 733    6.838ms/call

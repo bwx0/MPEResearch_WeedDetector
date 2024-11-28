@@ -14,11 +14,11 @@ void Reassembler::addRect(const Rect &rect) {
 
 void Reassembler::reassemble(const cv::Mat &srcImg,
                              cv::Mat &dstImg,
-                             int initial_width,
+                             int packer_width,
                              RectSortingMethod sorting_method,
-                             bool autosize,
-                             int border,
-                             int margin,
+                             bool use_resizable_packer,
+                             int border_thickness,
+                             int padding_size,
                              ROIExtractor *roi_extractor) {
     if (m_reassembled)
         throw std::runtime_error("Already reassembled");
@@ -47,13 +47,12 @@ void Reassembler::reassemble(const cv::Mat &srcImg,
         int x2 = x1 + w;
         int y2 = y1 + h;
 
-        int extra = margin + border;
+        int extra = padding_size + border_thickness;
         x1 = std::max(x1 - extra, 0);
         y1 = std::max(y1 - extra, 0);
         x2 = std::min(x2 + extra, imgw);
         y2 = std::min(y2 + extra, imgh);
         expanded_rects.emplace_back(x1, y1, x2 - x1, y2 - y1);
-        auto &&r = expanded_rects.back();
     }
 
     // Step 2: Sort rects and pack
@@ -64,18 +63,18 @@ void Reassembler::reassemble(const cv::Mat &srcImg,
     sw.stop_and_print("sort rects");
 
     std::vector<RectMapping> mappings;
-    if (autosize) {
+    if (use_resizable_packer) {
         ResizablePacker packer;
         mappings = packer.fit(sorted_rects);
     } else {
-        Packer packer(initial_width, initial_width);
+        Packer packer(packer_width, packer_width);
         mappings = packer.fit(sorted_rects);
     }
     this->m_mappings = mappings;
     sw.stop_and_print("fit");
 
     // Step 3: Construct the reassembled image
-    cv::Mat result_img = draw_rects(srcImg, mappings, border);
+    cv::Mat result_img = draw_rects(srcImg, mappings, border_thickness);
     sw.stop_and_print("construct img");
 
     m_reassembled = true;
@@ -118,7 +117,7 @@ cv::Mat Reassembler::draw_rects(const cv::Mat &srcImg,
 
     cv::Mat canvas(canvas_height, canvas_width, srcImg.type(), cv::Scalar(0, 0, 0));
 
-// TODO do we parallelize this?
+    // should we parallelize this?
 #pragma omp parallel for
     for (int i = 0; i < rect_mappings.size(); i++) {
         const RectMapping &rm = rect_mappings[i];

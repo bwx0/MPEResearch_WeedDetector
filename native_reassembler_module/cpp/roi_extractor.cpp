@@ -27,9 +27,16 @@ std::vector<Rect> ExGIGreenExtractor::extract_green_regions_bgr(const cv::Mat &i
 
 
     // Morphological closing
-    const int close_sz = std::min(exg.size[0], exg.size[1]) / 50;
+    // Use the close operation to clean up noise and connect leaves to the main stem, especially if they're
+    // separated due to thin or faint connections in the picture.
+    // In the Python implementation, the kernel size of 20 was chosen somewhat arbitrarily,
+    // assuming the image resolution is 1080p.
+    // However, in this C++ implementation, since we scale the original image at the beginning,
+    // the kernel size should also be scaled by the same factor. scaled_img_height/50 would be 1080/50,
+    // which gives a result close to 20.
+    const int kernel_size = std::min(exg.size[0], exg.size[1]) / 50;
     cv::Mat b2;
-    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(close_sz, close_sz));
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(kernel_size, kernel_size));
     cv::morphologyEx(exg, b2, cv::MORPH_CLOSE, kernel);
     sw.stop_and_print("morphEx");
 

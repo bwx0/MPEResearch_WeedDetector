@@ -20,21 +20,21 @@ class NativeReassembler(Reassembler):
         super().__init__()
 
     def reassemble(self, srcImg: np.ndarray,
-                   initial_width: int = 640,
+                   packer_width: int = 640,
                    sorting_method: NativeRectSortingMethod = NativeRectSortingMethod.HEIGHT_DESC,
-                   autosize: bool = True,
-                   border: int = 3,
-                   margin: int = 8,
+                   use_resizable_packer: bool = True,
+                   border_thickness: int = 3,
+                   padding_size: int = 8,
                    native_roi_extractor: nr.NativeROIExtractor = nr.NativeExGIExtractor(25, 2, 1080 // 2, 5, True)) -> np.ndarray:
         if self.reassembled:
             raise Exception("Already reassembled")
-        if not isinstance(margin, int):
-            raise Exception("Margin should be a single int")
+        if not isinstance(padding_size, int):
+            raise Exception("Padding size should be a single int")
         self.reassembled = True
 
         st = time.time()
-        img, native_mappings = nr.reassemble_native(srcImg, initial_width, sorting_method.value, autosize, border, margin,
-                                                    native_roi_extractor)
+        img, native_mappings = nr.reassemble_native(srcImg, packer_width, sorting_method.value, use_resizable_packer, border_thickness,
+                                                    padding_size, native_roi_extractor)
         # print(f"native time: {((time.time() - st) * 1000.0)}ms")
         self.__set_mappings(native_mappings)
 
