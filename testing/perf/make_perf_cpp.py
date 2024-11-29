@@ -1,6 +1,8 @@
+import argparse
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 """
@@ -21,17 +23,34 @@ def build_perf_cpp(force_rebuild: bool):
     # run CMake if the build directory does not exist
     if not os.path.exists("build"):
         Path("build").mkdir(parents=True)
-        print(subprocess.check_output(["cmake",
-                                       "-S", ".",
-                                       "-B", "build",
-                                       "-G", "Unix Makefiles",
-                                       # r"-Dpybind11_DIR='../../../venv/Lib/site-packages/pybind11/share/cmake/pybind11'",
-                                       # r"-DOpenCV_DIR='D:\OpenCV\opencv_4_10_0\local_build'",
-                                       "-DCMAKE_BUILD_TYPE=Release"]).decode('utf-8'))
+        subprocess.run(["cmake",
+                        "-S", ".",
+                        "-B", "build",
+                        "-G", "Unix Makefiles",
+                        # r"-Dpybind11_DIR='../../../venv/Lib/site-packages/pybind11/share/cmake/pybind11'",
+                        # r"-DOpenCV_DIR='D:\OpenCV\opencv_4_10_0\local_build'",
+                        "-DCMAKE_BUILD_TYPE=Release"],
+                       stdout=sys.stdout,
+                       stderr=sys.stderr,
+                       check=True)
     os.chdir(Path(Path(__file__).parent, "cpp", "build"))
-    print(subprocess.check_output(["make", "install", "-j"]).decode('utf-8'))
+    subprocess.run(["make", "install", "-j"],
+                   stdout=sys.stdout,
+                   stderr=sys.stderr,
+                   check=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Compile and install the C++ part of the perf test.")
+
+    parser.add_argument(
+        "force_rebuild", type=int, help="Rebuild from scratch.", default=0, nargs="?"
+    )
+
+    args = parser.parse_args()
+
+    build_perf_cpp(force_rebuild=bool(args.force_rebuild))
 
 
 if __name__ == "__main__":
-    build_perf_cpp(force_rebuild=False)
-    # build_perf_cpp(force_rebuild=True)
+    main()
