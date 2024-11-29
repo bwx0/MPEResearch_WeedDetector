@@ -357,8 +357,16 @@ class Reassembler:
         return result
 
 
+def check_native_reassembler():
+    try:
+        from roiyolowd.native_reassembler import NativeReassembler
+    except ModuleNotFoundError:
+        raise Exception("Failed to import the native reassembler. Have you compiled the module?")
+
+
 def create_reassembler(use_native: bool = False) -> Reassembler:
     if use_native:
+        check_native_reassembler()
         from roiyolowd.native_reassembler import NativeReassembler
         return NativeReassembler()
     else:

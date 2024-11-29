@@ -59,12 +59,15 @@ This project primarily includes:
 ├── 📁 cpptest/       Some legacy tests
 ├── 📁 dataset/       Exported datasets from LabelStudio and generated/processed datasets for fine-tuning and evaluation.
 ├── 📁 models/        Place fine-tuned models in this folder
-├── 📁 native_reassembler_module/  The ROI reassembler implementing in C++ and packaging as a Python module.
+├── 📁 native_reassembler_module/  The ROI reassembler implemented in C++ and packaged as a Python module.
 ├── 📁 plots/         Scripts that produce plots for my thesis.
 ├── 📁 roiyolowd/     The main module.
 ├── 📁 test_data/     Test images and videos.
 └── 📁 yolo_tools/    A few utilities for YOLOv8, including the script that prepare dataset for fine-tuning and evaluation.
 ```
+
+The `native_reassembler_module` is a C++ implementation of the preprocessing steps described above.
+While a Python implementation is also available in the main `roiyolowd` module, it is much slower.
 
 ## Build & Run
 
@@ -121,7 +124,7 @@ make install -j
  environment variable OPENCV_FFMPEG_READ_ATTEMPTS (current value is 4096).
 ```
 
-Solution: Set the following environment variable using bash or in your IDE.
+Solution: Set the following environment variable using bash or through your IDE.
 
 ```bash
 export OPENCV_FFMPEG_READ_ATTEMPTS = 10000000

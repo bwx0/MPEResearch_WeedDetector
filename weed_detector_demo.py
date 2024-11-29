@@ -19,8 +19,6 @@ tot_yolo = 0
 tot_yolo_roi = 0
 
 
-# TODO skip reassembling if reassembled image is too big
-
 def process(frame):
     global tot_vi, tot_owl, tot_yolo, tot_yolo_roi
 
@@ -69,4 +67,4 @@ def video_preview(video_file):
 
 
 if __name__ == '__main__':
-    video_preview(r"../test_data/d2.mp4")
+    video_preview(r"test_data/d2.mp4")
