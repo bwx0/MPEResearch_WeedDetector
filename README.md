@@ -114,6 +114,16 @@ make install -j
 - Step 3: Use `yolo_tools/yolo_slicer.py` to augment and convert the exported dataset into one that can directly be used by YOLOv8.
 - Step 4: Use `yolo_tools/yolo_train.py` to train the model with the prepared dataset (the one named `{your_dataset_name}_final`).
 
+The `imgsz` value should remain the same for both training and inference (e.g. 640); otherwise, 
+the results may be unreliable and meaningless.
+
+To improve the frame rate, you can lower the `imgsz` for both training and inference,
+but this comes at the expense of reduced *detection capacity*, in the sense that
+a reassembled image of size 500x500 can maintain its full detail (without scaling)
+when used with a model trained at `imgsz=640`. However, it will require scaling if the model was trained at `imgsz=480`. 
+If you know the target environment has sparse vegetation (fewer green areas), you can safely reduce `imgsz` to
+achieve higher frame rates without significant drawbacks.
+
 ## Troubleshooting
 
 ### OpenCV error when using `cv2.VideoCapture()` to read a video
@@ -135,3 +145,12 @@ export OPENCV_FFMPEG_READ_ATTEMPTS = 10000000
 I noticed YOLOv8 was taking around 240ms to detect objects in an image,
 which is way slower than the claimed 10 FPS on the RPi 5.
 After some digging, I managed to fix it by switching `torchvision` to version 0.20.1.
+
+## Some Other Ideas
+
+When dealing with a large number of plants, which results in a very large reassembled image,
+we can skip preprocessing and feed the original image directly into the detection model.
+Alternatively, we can randomly discard some ROIs from the current frame so that the model can
+still accurately detect a portion of the weeds while leaving the rest for the future. That way,
+a weed still have a decent chance to be detected at some point (not every time it shows up in the image),
+given that the camera is moving moderately slow.
