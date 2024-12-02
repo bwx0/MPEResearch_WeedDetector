@@ -94,11 +94,12 @@ class ExGIDetector(WeedDetector):
 
 
 class YOLOv8Detector(WeedDetector, ABC):
-    def __init__(self, name: str, model: YOLO, confidence_threshold: float):
+    def __init__(self, name: str, model: YOLO, confidence_threshold: float, imgsz: int):
         super().__init__(name)
         self.model: YOLO = model
         self.names: Dict[int, str] = model.names  # mappings from cls id to cls name
         self.confidence_threshold: float = confidence_threshold
+        self.imgsz: int = imgsz
         self.label_colors: Dict[int, Tuple[int, int, int]] = {}
         self.__init_label_colors()
 
@@ -126,19 +127,19 @@ class YOLOv8Detector(WeedDetector, ABC):
 
 
 class VanillaYOLOv8Detector(YOLOv8Detector):
-    def __init__(self, model: YOLO, confidence_threshold: float = 0.25):
-        super().__init__("Vanilla YOLOv8 Detector", model, confidence_threshold)
+    def __init__(self, model: YOLO, confidence_threshold: float = 0.25, imgsz: int = 640):
+        super().__init__("Vanilla YOLOv8 Detector", model, confidence_threshold, imgsz)
 
     @override
     def detect(self, bgr_image: np.ndarray) -> List[WeedLabel]:
-        pred = self.model.predict(bgr_image, conf=self.confidence_threshold)
+        pred = self.model.predict(bgr_image, conf=self.confidence_threshold, imgsz=self.imgsz)
         wls: List[WeedLabel] = YOLOv8Detector.yolopred2weedlabels(pred[0])
         return wls
 
 
 class YOLOv8WithROIDetector(YOLOv8Detector):
     def __init__(self, model: YOLO, confidence_threshold: float = 0.25, use_native_reassembler: bool = True,
-                 reassemble_size_limit: float = 0.7):
+                 imgsz: int = 640, reassemble_size_limit: float = 0.7):
         """
 
         Args:
@@ -147,7 +148,7 @@ class YOLOv8WithROIDetector(YOLOv8Detector):
             use_native_reassembler:
             reassemble_size_limit: stop using the reassembled image if its size exceed original_size * reassemble_size_limit
         """
-        super().__init__("YOLOv8 Detector with ROI", model, confidence_threshold)
+        super().__init__("YOLOv8 Detector with ROI", model, confidence_threshold, imgsz)
         self.use_native_reassembler = use_native_reassembler
         self.reassemble_size_limit = reassemble_size_limit
 
@@ -161,11 +162,11 @@ class YOLOv8WithROIDetector(YOLOv8Detector):
             # This could also be done in the reassembler by calculating the total area of the ROIs, which is
             # actually better as it saves time spent on image reconstruction.
             print(f"Reassembled image too large {rf.shape}, falling back to regular detection.")
-            pred = self.model.predict(bgr_image, conf=self.confidence_threshold)
+            pred = self.model.predict(bgr_image, conf=self.confidence_threshold, imgsz=self.imgsz)
             wls: List[WeedLabel] = YOLOv8Detector.yolopred2weedlabels(pred[0])
             return wls
 
-        pred = self.model.predict(rf, conf=self.confidence_threshold)
+        pred = self.model.predict(rf, conf=self.confidence_threshold, imgsz=self.imgsz)
         wls_raw = YOLOv8Detector.yolopred2weedlabels(pred[0])
         rects: List[Rect] = [wl.rect for wl in wls_raw]
         wls: List[WeedLabel] = []

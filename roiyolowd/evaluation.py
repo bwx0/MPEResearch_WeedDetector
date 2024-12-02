@@ -234,8 +234,8 @@ if __name__ == "__main__":
     # model = YOLO("../models/ablation/train3_split_ra10_fixedmargin/weights/best.pt")
     model = YOLO("../models/final_80/weights/best.pt")
     det_owl = OWLDetector()
-    det_yolo = VanillaYOLOv8Detector(model)
-    det_yolo_roi = YOLOv8WithROIDetector(model)
+    det_yolo = VanillaYOLOv8Detector(model, imgsz=640)
+    det_yolo_roi = YOLOv8WithROIDetector(model, imgsz=640)
     det_vi = ExGIDetector()
 
     evaluator = WeedDetectorEvaluator("../dataset/test22_relabelled")

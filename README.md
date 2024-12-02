@@ -30,6 +30,9 @@ The reassembled image is smaller, but it keeps most of the areas where plants ar
 Therefore, the scaling is less intensive, keeping more resolution and details,
 leading to better detection accuracy without relying on sliding window techniques.
 
+Key idea: Opt out non-weed regions by relatively simple traditional algorithm, and let the
+deep learning model focus only on the remaining part of the image.
+
 ### Challenges
 
 This project is indented to run on a Raspberry Pi 5, which has limited computational power.
@@ -114,15 +117,22 @@ make install -j
 - Step 3: Use `yolo_tools/yolo_slicer.py` to augment and convert the exported dataset into one that can directly be used by YOLOv8.
 - Step 4: Use `yolo_tools/yolo_train.py` to train the model with the prepared dataset (the one named `{your_dataset_name}_final`).
 
-The `imgsz` value should remain the same for both training and inference (e.g. 640); otherwise, 
-the results may be unreliable and meaningless.
-
 To improve the frame rate, you can lower the `imgsz` for both training and inference,
 but this comes at the expense of reduced *detection capacity*, in the sense that
 a reassembled image of size 500x500 can maintain its full detail (without scaling)
-when used with a model trained at `imgsz=640`. However, it will require scaling if the model was trained at `imgsz=480`. 
+when used with `imgsz=640`. However, it will require scaling if `imgsz=480`. 
 If you know the target environment has sparse vegetation (fewer green areas), you can safely reduce `imgsz` to
 achieve higher frame rates without significant drawbacks.
+
+## Add your ROI extractor
+
+Create your ROI extractor by extending the `ROIExtractor` class.
+
+For now, I assume that ROI extractors are stateless and rely on traditional computer vision techniques,
+such as identifying potential weeds based on color.
+
+The point is, ROI extractors should opt out plants or regions that are confidently identified as non-weeds by the 
+traditional algorithm, and leave the rest for the deep learning model for further verification.
 
 ## Troubleshooting
 

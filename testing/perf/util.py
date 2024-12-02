@@ -37,6 +37,7 @@ def print_platform_info():
     print("=" * 70)
 
 
+# todo: confidence interval
 def benchmark(func: Callable, max_runs: int = 1000, time_limit: int = 5, test_name: str = "func", *args, **kwargs):
     """
     Test the performance of a given function.
