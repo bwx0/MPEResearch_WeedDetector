@@ -117,6 +117,9 @@ make install -j
 - Step 3: Use `yolo_tools/yolo_slicer.py` to augment and convert the exported dataset into one that can directly be used by YOLOv8.
 - Step 4: Use `yolo_tools/yolo_train.py` to train the model with the prepared dataset (the one named `{your_dataset_name}_final`).
 
+It is recommended to use the same imgsz value (e.g., 640) for both training and inference.
+Otherwise, results may be unreliable, and inference time may be much slower.
+
 To improve the frame rate, you can lower the `imgsz` for both training and inference,
 but this comes at the expense of reduced *detection capacity*, in the sense that
 a reassembled image of size 500x500 can maintain its full detail (without scaling)
@@ -164,3 +167,6 @@ Alternatively, we can randomly discard some ROIs from the current frame so that 
 still accurately detect a portion of the weeds while leaving the rest for the future. That way,
 a weed still have a decent chance to be detected at some point (not every time it shows up in the image),
 given that the camera is moving moderately slow.
+
+## Performance Tests
+See [this README file](testing/perf/README.md).
