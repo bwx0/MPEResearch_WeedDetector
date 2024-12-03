@@ -92,9 +92,12 @@ pip install -r requirements.txt --system-site-packages # if you want to reuse ex
 Install the project as an editable module, so that modified Python code takes effect without having to reinstall.
 
 ```bash
-pip install -e .
-pip install .  # Do normal installation if you want to install for other projects
+pip install -e .  # Do editable installation if you intend to develop this module
+pip install .     # Normal installation
 ```
+
+If you are unable to install this module on Windows, you can manually set the paths to your OpenCV and Pybind installations
+in `setup.py` to help CMake locate them.
 
 Please remove `project_folder/build` before installing, or it will fail. But I have no idea why this happens.
 
@@ -106,10 +109,9 @@ These are some commands you will need:
 ```bash
 cd native_reassembler_module/cpp
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release  # and possibly -Dpybind11_DIR=xxx -DOpenCV_DIR=xxx
 make install -j
 ```
-
 
 ## Fine-tune YOLOv8
 - Step 1: Label your images in [LabelStudio](https://labelstud.io/).
@@ -170,3 +172,7 @@ given that the camera is moving moderately slow.
 
 ## Performance Tests
 See [this README file](testing/perf/README.md).
+
+## Data Files
+You can download the fine-tuned models, and the images and videos that you might
+need to run the scripts, from [this link](https://drive.google.com/file/d/1LBnay_QxHfBi4dO-_SX6ueMIgNEO54C4/view).

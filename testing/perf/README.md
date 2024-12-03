@@ -64,12 +64,12 @@ based on the data above and some other experiments.
 
 **Table: Speed & accuracy with different `imgsz` during training and inferencing**
 
-| Training imgsz | Inferencing imgsz| mAP50 (YOLOv8) | mAP50 (YOLOv8 + ROI) | Detection frame rate | Inference Time |
-|----------------|-------------------|---------------:|---------------------:|---------------------:|---------------:|
-| 480            | 480               |          32.6% |                72.9% |             18.4 fps |          43 ms |
-| 480            | 640               |          59.4% |                75.6% |              6.1 fps |          90 ms |
-| 640            | 480               |          20.0% |                68.5% |              4.0 fps |          47 ms |
-| 640            | 640               |          32.6% |                76.7% |              8.7 fps |          93 ms |
+| Training imgsz | Inferencing imgsz  | mAP50 (YOLOv8) | mAP50 (YOLOv8 + ROI) | Detection frame rate | Inference Time |
+|----------------|--------------------|---------------:|---------------------:|---------------------:|---------------:|
+| 480            | 480                |          32.6% |                72.9% |             18.4 fps |          43 ms |
+| 480            | 640                |          59.4% |                75.6% |              6.1 fps |          90 ms |
+| 640            | 480                |          20.0% |                68.5% |              4.0 fps |          47 ms |
+| 640            | 640                |          32.6% |                76.7% |              8.7 fps |          93 ms |
 
 - Measured on a Raspberry Pi 5.
 - Inference time is the time reported by the YOLOv8 library.
