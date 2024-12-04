@@ -176,3 +176,6 @@ See [this README file](testing/perf/README.md).
 ## Data Files
 You can download the fine-tuned models, and the images and videos that you might
 need to run the scripts, from [this link](https://drive.google.com/file/d/1LBnay_QxHfBi4dO-_SX6ueMIgNEO54C4/view).
+
+## See Also
+[OWL with this project integrated](https://github.com/bwx0/OpenWeedLocator)
