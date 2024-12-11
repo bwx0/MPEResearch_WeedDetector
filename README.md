@@ -1,5 +1,8 @@
 # In-Crop Weed Detection through YOLOv8 and ROI Extraction
 
+This repo contains my master's research project.
+The YOLOv8 model in this repo is trained specifically on our custom dataset.
+
 ## Background
 
 [OpenWeedLocator](https://github.com/geezacoleman/OpenWeedLocator):  An open-source, low-cost device for fallow weed
